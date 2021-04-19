@@ -24,7 +24,6 @@ namespace ChomskyNormalForm
             var element = new KeyValuePair<string, string>(key, value);
             this.Insert(index, element);
         }
-
         public void Start(ProductionRules rules)
         {
             foreach (var item in rules)
@@ -45,7 +44,7 @@ namespace ChomskyNormalForm
                 value.AddRange(rules[item].Value.Select(d => d.ToString()));
                 foreach (var i in value)
                 {
-                    if (i.All(char.IsLower) && value.Count > 1)
+                    if (Helper.IsLower(i) && value.Count > 1)
                     {
                         NewState++;
                         rules.Add(alphabet[NewState].ToString(), i);
@@ -53,12 +52,12 @@ namespace ChomskyNormalForm
                         var result = String.Join("", value);
                         result = result.Replace(i, alphabet[NewState].ToString());
                         rules.InsertAt(item, rules[item].Key, result);
-
                         result = "";
                     }
                 }
                 value.Clear();
             }
+            Helper.GetDistinct(rules);
         }
         public void Bin(ProductionRules rules)
         {
@@ -70,24 +69,42 @@ namespace ChomskyNormalForm
                 value.AddRange(rules[item].Value.Select(d => d.ToString()));
                 for (int i = 0; i < value.Count; ++i)
                 {
-                    if (value[i].All(char.IsUpper) && value.Count > 2)
+                    if (Helper.IsUpper(value[i]) && value.Count > 2)
                     {
                         mem.Add(value[i]);
                         if (mem.Count < 2)
                             continue;
 
                     }
-                    if (value[i].All(char.IsUpper) && value.Count > 2)
+                    if (Helper.IsUpper(value[i]) && value.Count > 2)
                     {
-                        NewState++;
-                        rules.Add(alphabet[NewState].ToString(), mem[0] + value[i]);
-                        rules.RemoveAt(item);
-                        var result = String.Join("", value);
-                        result = result.Replace(mem[0] + value[i], alphabet[NewState].ToString());
-                        rules.InsertAt(item, rules[item].Key, result);
-                        result = "";
+                        var result = "";
+                        bool processed = false;
+                        for (int k = 0; k < rules.Count; ++k)
+                        {
+                            if (rules[k].Value.Contains(mem[0] + value[i]) && rules[k].Value.Length == 2)
+                            {
+                                string key = rules[k].Key.ToString();
+                                rules.RemoveAt(item);
+                                result = String.Join("", value);
+                                result = result.Replace(mem[0] + value[i], key);
+                                rules.InsertAt(item, rules[item].Key, result);
+                                result = "";
+                                processed = true;
+                                break;
+                            }
+                        }
+                        if (processed != true)
+                        {
+                            NewState++;
+                            rules.Add(alphabet[NewState].ToString(), mem[0] + value[i]);
+                            rules.RemoveAt(item);
+                            result = String.Join("", value);
+                            result = result.Replace(mem[0] + value[i], alphabet[NewState].ToString());
+                            rules.InsertAt(item, rules[item].Key, result);
+                            result = "";
+                        }
                     }
-
                     mem.Clear();
                     if (rules[item].Value.Count() % 2 == 0)
                     {
@@ -96,19 +113,72 @@ namespace ChomskyNormalForm
                 }
                 value.Clear();
             }
+            Helper.GetDistinct(rules);
         }
         public void Del(ProductionRules rules)
         {
-           
-        }
-        public void Display(ProductionRules rules)
-        {
-            foreach (var item in rules)
+            List<string> value = new List<string>();
+            for (int item = 0; item < rules.Count; ++item)
             {
-                string x = string.Format("{0} -> {1} ", item.Key, item.Value);
-                Console.WriteLine(x);
+                if (rules[item].Value.Contains('*'))
+                {
+                    for (int i = 0; i < rules.Count; ++i)
+                    {
+                        value.AddRange(rules[i].Value.Select(d => d.ToString()));
+                        for (int j = 0; j < value.Count; ++j)
+                        {
+                            if (value[j].Contains(rules[item].Key) && rules[i].Value.Length > 1)
+                            {
+                                foreach (var index in Helper.AllIndexesOf(rules[i].Value, rules[item].Key))
+                                {
+                                    string rule = rules[i].Value.Remove(index, 1);
+                                    rules.Add(rules[i].Key, rule);
+                                }
+                                break;
+                            }
+                            if (value[j].Contains(rules[item].Key) && rules[i].Value.Length == 1)
+                            {
+                                rules.Add(rules[i].Key, "*");
+                            }
+                        }
+                        value.Clear();
+                    }
+                }
             }
-            Console.WriteLine("---------------------------- \n");
+            for (int k = 0; k < rules.Count; ++k)
+            {
+                if (rules[k].Value.Contains('*'))
+                {
+                    rules.RemoveAt(k);
+                }
+            }
+            Helper.GetDistinct(rules);
         }
+        public void Unit(ProductionRules rules)
+        {
+            List<string> value = new List<string>();
+
+            for (int item = 0; item < rules.Count; ++item)
+            {
+                value.AddRange(rules[item].Value.Select(d => d.ToString()));
+                for (int i = 0; i < value.Count; ++i)
+                {
+                    if (Helper.IsUpper(value[i]) && value.Count == 1)
+                    {
+                        string key = rules[item].Key;
+                        rules.RemoveAt(item);
+                        Console.WriteLine("For {1} -> {0}", value[i], key);
+                        foreach (var rule in rules.FindAll(element => element.Key.StartsWith(value[i])))
+                        {
+                            rules.Add(key, rule.Value);
+                        }
+                    }
+                    value.Clear();
+                }
+            }
+            Helper.GetDistinct(rules);
+        }
+      
     }
 }
+

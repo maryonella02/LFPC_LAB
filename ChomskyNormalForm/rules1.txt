@@ -1,9 +1,8 @@
 ﻿S->aB
-S->AaC
-A->BaC
+S->DA
+A->BD
 A->a
-A->ASC
+A->ADADB
 B->b
-B->C
-C->*
-C->BA
+B->ASB
+D->*
