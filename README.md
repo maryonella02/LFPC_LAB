@@ -2,8 +2,9 @@
 
 Variant Nr 29
 
-# Initial form of the grammar:  
+###### Initial form of the grammar:  
 
+```c#
 S -> aB
 S -> DA
 A -> BD
@@ -12,9 +13,11 @@ A -> ADADB
 B -> b
 B -> ASB
 D -> *
+```
 
-# Step 1: Eliminate start symbol from the RHS( right hand side). If the start symbol S is at the right-hand side of any production, create a new production as:
+###### Step 1: Eliminate start symbol from the RHS( right hand side). If the start symbol S is at the right-hand side of any production, create a new production as:
 
+```c#
 S0 -> S
 S -> aB
 S -> DA
@@ -24,9 +27,11 @@ A -> ADADB
 B -> b
 B -> ASB
 D -> *
+```
 
-# Step 2:  Eliminate terminals from the RHS of the production if they exist with other non-terminals or terminals. I will add Non-Terminals starting from G, in alphabetical order, as I did in the solution:
+###### Step 2:  Eliminate terminals from the RHS of the production if they exist with other non-terminals or terminals. I will add Non-Terminals starting from G, in alphabetical order, as I did in the solution:
 
+```c#
 S0 -> S
 S -> GB
 S -> DA
@@ -37,9 +42,11 @@ B -> b
 B -> ASB
 D -> *
 G -> a
+```
 
-# Step 3: Eliminate null productions:
+###### Step 3: Eliminate null productions:
 
+```c#
 S0 -> S
 S -> GB
 S -> DA
@@ -54,9 +61,11 @@ A -> B
 A -> AADB
 A -> ADAB
 A -> AAB
+```
 
-# Step 4: Eliminate RHS with more than two non-terminals. This step can be repeated multiple times till all rules don't have more than two Non-Terminals on RHS:
+###### Step 4: Eliminate RHS with more than two non-terminals. This step can be repeated multiple times till all rules don't have more than two Non-Terminals on RHS:
 
+```c#
 S0 -> S
 S -> GB
 S -> DA
@@ -77,9 +86,11 @@ J -> AA
 K -> DB
 L -> AB
 M -> HH
+```
 
 
-# Step 5: Eliminate unit productions: 
+###### Step 5: Eliminate unit productions: 
+```c#
 For S0 -> S
 For S -> A
 For S0 -> A
@@ -117,3 +128,4 @@ S0 -> MB
 S0 -> b
 A -> MB
 A -> b
+```
