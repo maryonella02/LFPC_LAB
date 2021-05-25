@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ChomskyNormalForm;
+using System;
 using System.IO;
 
-namespace ChomskyNormalForm
+namespace LLParsing
 {
     class Program
     {
         static void Main(string[] args)
         {
-            StreamReader reader = File.OpenText(@"C:\Users\Marinela\source\repos\LFPC LAB\ChomskyNormalForm\rules1.txt");
+
+            StreamReader reader = File.OpenText(@"C:\Users\Marinela\source\repos\LFPC LAB\LLParsing\rules.txt");
             string line;
             var productions = new ProductionRules();
             while ((line = reader.ReadLine()) != null)
@@ -20,12 +21,8 @@ namespace ChomskyNormalForm
             Console.WriteLine("Initial form of the grammar:");
             Helper.Display(productions);
 
-            Console.WriteLine("Eliminate the start symbol from right-hand sides:");
-            productions.Start(productions);
-            Helper.Display(productions);
-
-            Console.WriteLine("Eliminate rules with nonsolitary terminals:");
-            productions.Term(productions);
+            Console.WriteLine("Eliminate left recursion:");
+            productions.RemoveLeftRecursion(productions);
             Helper.Display(productions);
 
             Console.WriteLine("Eliminate ε-rules:");
@@ -41,13 +38,20 @@ namespace ChomskyNormalForm
                 Helper.Display(productions);
             }
 
-            Console.WriteLine("Eliminate unit rules:");
-            productions.Unit(productions);
+            counter = 0;
+            while (counter != productions.Count)
+            {
+                counter = productions.Count;
+                Console.WriteLine("Eliminate unit rules:");
+                productions.Unit(productions);
+                Helper.Display(productions);
+            }
+
+            //
+
+            //Parser.GetFirst(productions);
             Helper.Display(productions);
 
-            Console.WriteLine("Eliminate unit rules:");
-            productions.Unit(productions);
-            Helper.Display(productions);
         }
     }
 }

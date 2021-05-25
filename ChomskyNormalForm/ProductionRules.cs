@@ -178,7 +178,44 @@ namespace ChomskyNormalForm
             }
             Helper.GetDistinct(rules);
         }
-      
+        public void RemoveLeftRecursion(ProductionRules rules)
+        {
+            List<string> value = new List<string>();
+            for (int item = 0; item < rules.Count; ++item)
+            {
+
+                value.AddRange(rules[item].Value.Select(d => d.ToString()));
+
+                if (value[0].Contains(rules[item].Key))
+                {
+                    for (int j = 0; j < rules.Count; ++j)
+                    {
+                        if (rules[j].Key.Contains(rules[item].Key) && Helper.IsLower(rules[j].Value))
+                        {
+                            NewState++;
+                            string terminal = rules[j].Value.ToString();
+                            string nonTerminal = rules[item].Key;
+                            rules.RemoveAt(j);
+                            rules.InsertAt(j, nonTerminal, terminal + alphabet[NewState].ToString());
+                            break;
+                        }
+                    }
+                    for (int j = 0; j < rules.Count; ++j)
+                    {
+                        if (rules[j].Key.Contains(rules[item].Key) && rules[j].Value.StartsWith(rules[item].Key))
+                        {
+                            string production = rules[j].Value.Substring(1);
+                            rules.RemoveAt(j);
+                            rules.InsertAt(j, alphabet[NewState].ToString(), production + alphabet[NewState].ToString());
+                            rules.InsertAt(j + 1, alphabet[NewState].ToString(), "*");
+                            break;
+                        }
+                    }
+                }
+                value.Clear();
+            }
+            Helper.GetDistinct(rules);
+        }
     }
 }
 
