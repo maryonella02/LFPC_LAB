@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ChomskyNormalForm
 {
-    public static class  Helper
+    public static class Helper
     {
-        public static void Display(ProductionRules rules)
+        public static void Display(List<KeyValuePair<string, string>> rules)
         {
             foreach (var item in rules)
             {
@@ -15,7 +16,7 @@ namespace ChomskyNormalForm
             }
             Console.WriteLine("----------------------------------------------- \n");
         }
-        public static void GetDistinct(ProductionRules rules)
+        public static void GetDistinct(List<KeyValuePair<string, string>> rules)
         {
             for (int i = 0; i < rules.Count; i++)
             {

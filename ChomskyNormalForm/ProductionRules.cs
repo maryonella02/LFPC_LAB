@@ -35,6 +35,7 @@ namespace ChomskyNormalForm
                 }
             }
         }
+       
         public void Term(ProductionRules rules)
         {
             List<string> value = new List<string>();

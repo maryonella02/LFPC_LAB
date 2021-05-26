@@ -1,5 +1,6 @@
 ﻿using ChomskyNormalForm;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LLParsing
@@ -25,32 +26,9 @@ namespace LLParsing
             productions.RemoveLeftRecursion(productions);
             Helper.Display(productions);
 
-            Console.WriteLine("Eliminate ε-rules:");
-            productions.Del(productions);
-            Helper.Display(productions);
-
-            int counter = 0;
-            while (counter != productions.Count)
-            {
-                counter = productions.Count;
-                Console.WriteLine("Eliminate right-hand sides with more than 2 nonterminals:");
-                productions.Bin(productions);
-                Helper.Display(productions);
-            }
-
-            counter = 0;
-            while (counter != productions.Count)
-            {
-                counter = productions.Count;
-                Console.WriteLine("Eliminate unit rules:");
-                productions.Unit(productions);
-                Helper.Display(productions);
-            }
-
-            //
-
-            //Parser.GetFirst(productions);
-            Helper.Display(productions);
+            Console.WriteLine("Obtain FIRST:");
+            List<KeyValuePair<string, string>> first = Parser.GetFirst(productions);
+            Helper.Display(first);
 
         }
     }
