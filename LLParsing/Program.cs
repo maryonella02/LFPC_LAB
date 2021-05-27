@@ -30,6 +30,10 @@ namespace LLParsing
             List<KeyValuePair<string, string>> first = Parser.GetFirst(productions);
             Helper.Display(first);
 
+            Console.WriteLine("Obtain FOLLOW:");
+            List<KeyValuePair<string, string>> follow = Parser.GetFollow(productions);
+            Helper.Display(follow);
+
         }
     }
 }

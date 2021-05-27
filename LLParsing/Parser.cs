@@ -50,6 +50,61 @@ namespace LLParsing
             Helper.GetDistinct(first);
             return first;
         }
+        public static ProductionRules GetFollow(ProductionRules rules)
+        {
+            ProductionRules first = GetFirst(rules);
+            List<string> nonTerminals = GetNonterminals(rules);
+            ProductionRules follow = new ProductionRules();
+            List<string> value = new List<string>();
+            for (int n = 0; n < nonTerminals.Count; ++n)
+            {
+                if (nonTerminals[n] == "S")
+                {
+                    follow.Add(nonTerminals[n], "$");
+                }
+                for (int item = 0; item < rules.Count; ++item)
+                {
+                    value.AddRange(rules[item].Value.Select(d => d.ToString()));
+                    if (value.Contains(nonTerminals[n]))
+                    {
+                        for (int i = value.IndexOf(nonTerminals[n]); i < value.Count; i++)
+                        {
+                            try
+                            {
+                                if (Helper.IsLower(value[i + 1]))
+                                {
+                                    follow.Add(nonTerminals[n], value[i + 1]);
+                                    break;
+                                }
+                                if (Helper.IsUpper(value[i + 1]))
+                                {
+                                    for (int f = 0; f < first.Count; ++f)
+                                    {
+                                        if (first[f].Key == value[i + 1] && first[f].Value != "*")
+                                        {
+                                            follow.Add(nonTerminals[n], value[i + 1]);
+                                        }
+                                    }
+                                }
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                                var length = follow.Count;
+                                for (int f = 0; f < length; ++f)
+                                {
+                                    if (follow[f].Key == rules[item].Key && value[i] != rules[item].Key)
+                                    {
+                                        follow.Add(nonTerminals[n], follow[f].Value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    value.Clear();
+                }
+            }
+            return follow;
+        }
         public static List<string> GetNonterminals(ProductionRules rules)
         {
             List<string> nonTerm = new List<string>();
