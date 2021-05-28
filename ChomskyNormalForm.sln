@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChomskyNormalForm", "ChomskyNormalForm\ChomskyNormalForm.csproj", "{21EC7D2F-9F81-41DB-A79D-30D403E016BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLParsing", "LLParsing\LLParsing.csproj", "{BBDB47C3-343C-4DCE-B77E-D4619909CE93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LLParsing", "LLParsing\LLParsing.csproj", "{BBDB47C3-343C-4DCE-B77E-D4619909CE93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFAtoDFA", "NFAtoDFA\NFAtoDFA.csproj", "{8C4453FD-AE99-4318-9CF6-0AC73C3155BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1", "Lab1\Lab1.csproj", "{2CDBF7E4-EB23-4767-8C55-32820D4F61AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{BBDB47C3-343C-4DCE-B77E-D4619909CE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBDB47C3-343C-4DCE-B77E-D4619909CE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBDB47C3-343C-4DCE-B77E-D4619909CE93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C4453FD-AE99-4318-9CF6-0AC73C3155BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C4453FD-AE99-4318-9CF6-0AC73C3155BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C4453FD-AE99-4318-9CF6-0AC73C3155BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C4453FD-AE99-4318-9CF6-0AC73C3155BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CDBF7E4-EB23-4767-8C55-32820D4F61AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CDBF7E4-EB23-4767-8C55-32820D4F61AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CDBF7E4-EB23-4767-8C55-32820D4F61AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CDBF7E4-EB23-4767-8C55-32820D4F61AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
